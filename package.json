@@ -1,0 +1,54 @@
+{
+    "name": "walrus-json",
+    "version": "0.1.0",
+    "description": "Ergonomic JSON manipulation over append-only Walrus blobs, with a Sui pointer object as the stable handle to the latest blob.",
+    "license": "Apache-2.0",
+    "type": "module",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "move",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "tsup",
+        "dev": "tsup --watch",
+        "typecheck": "tsc --noEmit",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "sandbox": "tsx sandbox/manipulate.ts"
+    },
+    "keywords": [
+        "walrus",
+        "sui",
+        "json",
+        "blob",
+        "storage"
+    ],
+    "engines": {
+        "node": ">=20"
+    },
+    "dependencies": {
+        "@mysten/sui": "^2.17.0",
+        "@mysten/walrus": "^1.1.7"
+    },
+    "devDependencies": {
+        "@types/node": "^22.0.0",
+        "prettier": "^3.4.0",
+        "tsup": "^8.5.0",
+        "tsx": "^4.19.0",
+        "undici": "^7.0.0",
+        "typescript": "^5.7.0",
+        "vitest": "^3.0.0"
+    }
+}

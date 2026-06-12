@@ -1,0 +1,13 @@
+[package]
+name = "walrus_json"
+edition = "2024.beta"
+license = "Apache-2.0"
+
+[dependencies]
+
+[addresses]
+walrus_json = "0x0"
+
+[dev-dependencies]
+
+[dev-addresses]
