@@ -1,6 +1,8 @@
 export { WalrusJsonClient } from './client.js';
 export type { WalrusJsonClientOptions } from './client.js';
 
+export { WALRUS_JSON_PACKAGE_IDS, defaultPackageId } from './deployments.js';
+
 export { JsonDocument } from './document.js';
 export type { DocumentBackend, DocumentInit } from './document.js';
 

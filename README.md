@@ -30,7 +30,8 @@ import { WalrusJsonClient } from 'walrus-json';
 const wj = new WalrusJsonClient({
     network: 'testnet',
     signer: Ed25519Keypair.generate(),
-    packageId: '0x...', // published walrus_json Move package
+    // packageId is optional: on testnet the client uses the canonical deployment
+    // below. Pass your own only if you self-deploy the Move package.
 });
 
 // Create a new document and commit it as a Walrus blob.
@@ -84,8 +85,35 @@ call `commit()`.
 The `walrus_json::pointer` Move package (in [`move/walrus_json`](move/walrus_json))
 defines a `JsonPointer` object that stores the current `blobId`, a monotonically
 increasing `version`, and emits `PointerCreated` / `PointerUpdated` events for the
-Indexer to subscribe to. Build and publish it with `sui move build` /
-`sui client publish`, then pass the resulting `packageId` to `WalrusJsonClient`.
+Indexer to subscribe to.
+
+### Deployed packages
+
+Quadra Labs publishes the Move package so you do not have to. The client uses the
+entry for its network by default, so you can omit `packageId`.
+
+| Network | `walrus_json` package id |
+| ------- | ------------------------ |
+| testnet | `0x109cb22a1e577217d24c476f64053367c19de15e31728c0d412f1e1dea468191` |
+
+You can also import these ids:
+
+```ts
+import { WALRUS_JSON_PACKAGE_IDS } from 'walrus-json';
+
+console.log(WALRUS_JSON_PACKAGE_IDS.testnet);
+```
+
+### Self-deploy (optional)
+
+To run your own pointer package instead, build and publish the Move source, then
+pass the resulting id as `packageId`:
+
+```bash
+cd move/walrus_json
+sui move build
+sui client publish
+```
 
 ## Requirements
 

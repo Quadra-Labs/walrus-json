@@ -8,6 +8,7 @@ import {
     type WalrusClientExtensionOptions,
 } from '@mysten/walrus';
 
+import { defaultPackageId } from './deployments.js';
 import { JsonDocument } from './document.js';
 import { MissingConfigError } from './errors.js';
 import {
@@ -43,7 +44,12 @@ export interface WalrusJsonClientOptions {
     transport?: 'jsonRpc' | 'grpc';
     /** Signer that pays for and authorizes blob writes and pointer transactions. */
     signer: Signer;
-    /** Object id of the published `walrus_json` Move package. Required for pointer operations. */
+    /**
+     * Object id of the published `walrus_json` Move package, used by pointer
+     * operations. If omitted, the client uses the canonical deployment for its
+     * network (see `WALRUS_JSON_PACKAGE_IDS`). Pass your own to use a self-deployed
+     * package.
+     */
     packageId?: string;
     /** Extra options forwarded to the Walrus client extension (upload relay, wasmUrl, etc.). */
     walrus?: WalrusClientExtensionOptions;
@@ -69,7 +75,7 @@ export class WalrusJsonClient {
     constructor(options: WalrusJsonClientOptions) {
         this.network = options.network ?? 'testnet';
         this.#signer = options.signer;
-        this.#packageId = options.packageId;
+        this.#packageId = options.packageId ?? defaultPackageId(this.network);
         this.#defaultEpochs = options.defaultEpochs;
         this.#defaultDeletable = options.defaultDeletable ?? true;
 
@@ -213,7 +219,7 @@ export class WalrusJsonClient {
     #requirePackageId(): string {
         if (this.#packageId === undefined) {
             throw new MissingConfigError(
-                'packageId is required for pointer operations; pass it to the WalrusJsonClient constructor',
+                `no walrus_json packageId for network "${this.network}"; pass packageId to the WalrusJsonClient constructor`,
             );
         }
         return this.#packageId;
