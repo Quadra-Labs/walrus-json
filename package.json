@@ -1,6 +1,6 @@
 {
     "name": "walrus-json",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Ergonomic JSON manipulation over append-only Walrus blobs, with a Sui pointer object as the stable handle to the latest blob.",
     "license": "Apache-2.0",
     "type": "module",
